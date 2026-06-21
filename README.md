@@ -11,5 +11,5 @@ Public Helm charts for OpsDiag.
 ```bash
 helm install opsdiag-app-connector \
   oci://europe-west1-docker.pkg.dev/prod-common-cicd/charts-opsdiag/opsdiag-app-connector \
-  --version 0.1.2
+  --version 0.1.3
 ```

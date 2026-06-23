@@ -11,7 +11,7 @@ Public Helm charts for OpsDiag.
 ```bash
 helm install opsdiag-app-connector \
   oci://europe-west1-docker.pkg.dev/prod-common-cicd/opsdiag-helm-pub/opsdiag-app-connector \
-  --version 0.1.6
+  --version 0.1.7
 ```
 
 The chart defaults are compatible with OpenShift restricted SCC: it does not pin

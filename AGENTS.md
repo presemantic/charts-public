@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This project is `opsdiag-helm-pub`: the public Helm chart repository for OpsDiag deployable artifacts.
+This project is `opsdiag-cicd-helm-pub`: the public Helm chart repository for OpsDiag deployable artifacts.
 
 ## Structure
 

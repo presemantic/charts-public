@@ -1,4 +1,4 @@
-# opsdiag-helm-pub
+# opsdiag-cicd-helm-pub
 
 Public Helm charts for OpsDiag.
 

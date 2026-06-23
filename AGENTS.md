@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This project is `opsdiag-charts`: the public Helm chart repository for OpsDiag deployable artifacts.
+This project is `opsdiag-helm-pub`: the public Helm chart repository for OpsDiag deployable artifacts.
 
 ## Structure
 
@@ -19,12 +19,14 @@ Use the Bitnami-style pattern where application templates stay thin and reuse th
 
 Do not vendor dependency charts into this repository unless explicitly requested. Dependency resolution should use Helm dependency commands against `https://opsolving.github.io/charts/`.
 
-Chart release workflows must publish Helm OCI artifacts to `europe-west1-docker.pkg.dev/prod-common-cicd/charts-opsdiag`. The `charts-opsdiag` Artifact Registry repository must be an OCI/Docker-compatible repository for `helm push` and `helm install oci://...` workflows.
+Chart release workflows must publish Helm OCI artifacts to `europe-west1-docker.pkg.dev/prod-common-cicd/opsdiag-helm-pub`. The `opsdiag-helm-pub` Artifact Registry repository must be an OCI/Docker-compatible repository for `helm push` and `helm install oci://...` workflows.
 
-Charts are pushed directly to the dedicated OpsDiag chart repository without an extra namespace segment. For example, `opsdiag-app-connector` is pushed as `europe-west1-docker.pkg.dev/prod-common-cicd/charts-opsdiag/opsdiag-app-connector`.
+Charts are pushed directly to the dedicated public OpsDiag chart repository without an extra namespace segment. For example, `opsdiag-app-connector` is pushed as `europe-west1-docker.pkg.dev/prod-common-cicd/opsdiag-helm-pub/opsdiag-app-connector`.
 
-The public connector chart must not expose or inject the Control gateway-token endpoint. The connector binary owns that production default; the chart only supplies the license secret, relay WebSocket URL, and runtime tuning values.
+The public connector chart renders `/app/config.yaml` from the top-level `config` value. Standard `license`/`licenseServer` must live at the top level of `config`, while relay settings must live under `config.relay` as `license`, `edgeURL`, and `relayURL` in deploy/user values, not in the public chart defaults. Do not split those values into Secrets or license-specific environment variables. The `connector` value is only for runtime tuning such as timeouts and frame limits.
 
 The connector chart `appVersion` and default image tag track the released `opsdiag-app-connector` image tag. The release workflow must not rewrite `appVersion` to the chart release tag.
+
+The connector chart must stay compatible with OpenShift restricted SCC. Do not set fixed `runAsUser`, `runAsGroup`, or `fsGroup` defaults; OpenShift injects a namespace-range random UID. Keep non-root, no privilege escalation, read-only root filesystem, dropped capabilities, and RuntimeDefault seccomp defaults.
 
 The chart release workflow must not require `presemantic/actions-helpers` or `GH_ACTIONS_HELPERS_TOKEN`; it resolves timestamp release tags directly from the triggering GitHub ref.

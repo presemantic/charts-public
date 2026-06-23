@@ -1,4 +1,4 @@
-name: "opsdiag-charts"
+name: "opsdiag-helm-pub"
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ permissions:
 
 env:
   REGION: europe-west1
-  GAR_LOCATION: europe-west1-docker.pkg.dev/prod-common-cicd/charts-opsdiag
+  GAR_LOCATION: europe-west1-docker.pkg.dev/prod-common-cicd/opsdiag-helm-pub
   CHART_PATH: opsdiag-app-connector
 
 jobs:

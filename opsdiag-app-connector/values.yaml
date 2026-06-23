@@ -25,9 +25,9 @@ image:
   ## @param image.registry OpsDiag connector image registry
   registry: europe-west1-docker.pkg.dev
   ## @param image.repository OpsDiag connector image repository
-  repository: prod-common-cicd/docker-public/opsdiag-app-connector
+  repository: prod-common-cicd/opsdiag-docker-pub/opsdiag-app-connector
   ## @param image.tag OpsDiag connector image tag; defaults to chart appVersion when empty
-  tag: "2026-06-22.00-19-02.7b61a8"
+  tag: "2026-06-23.02-06-33.21d9e6"
   ## @param image.digest OpsDiag connector image digest, used instead of tag when set
   digest: ""
   ## @param image.pullPolicy OpsDiag connector image pull policy
@@ -35,17 +35,14 @@ image:
   ## @param image.pullSecrets OpsDiag connector image pull secret names as strings or maps with a `name` key
   pullSecrets: []
 
-## @section OpsDiag connector configuration
+## @section OpsDiag connector config file
+##
+## @param config Connector config rendered directly as `/app/config.yaml`; users must provide licenses and endpoints in their own values.
+config: {}
+
+## @section OpsDiag connector runtime configuration
 ##
 connector:
-  ## @param connector.license App connector pseudo-license JWT. Prefer `connector.existingSecret` for real installs.
-  license: ""
-  ## @param connector.existingSecret Existing secret containing the app connector pseudo-license JWT
-  existingSecret: ""
-  ## @param connector.existingSecretKey Key inside `connector.existingSecret` or the chart-created secret
-  existingSecretKey: license
-  ## @param connector.relayURL Public control relay WebSocket URL
-  relayURL: wss://relay.control.opsdiag.ai/
   ## @param connector.connectTimeoutSeconds Relay WebSocket connect timeout in seconds
   connectTimeoutSeconds: 10
   ## @param connector.reconnectMinSeconds Minimum reconnect backoff in seconds
@@ -98,8 +95,6 @@ serviceAccount:
 podSecurityContext:
   ## @param podSecurityContext.enabled Enable pod security context
   enabled: true
-  ## @param podSecurityContext.fsGroup Pod filesystem group
-  fsGroup: 65532
   ## @param podSecurityContext.seccompProfile.type Pod seccomp profile type
   seccompProfile:
     type: RuntimeDefault
@@ -107,10 +102,6 @@ podSecurityContext:
 containerSecurityContext:
   ## @param containerSecurityContext.enabled Enable container security context
   enabled: true
-  ## @param containerSecurityContext.runAsUser Container user ID
-  runAsUser: 65532
-  ## @param containerSecurityContext.runAsGroup Container group ID
-  runAsGroup: 65532
   ## @param containerSecurityContext.runAsNonRoot Run container as non-root
   runAsNonRoot: true
   ## @param containerSecurityContext.readOnlyRootFilesystem Use read-only root filesystem

@@ -11,5 +11,4 @@ metadata:
   {{- end }}
 data:
   config.yaml: |
-    license: ""
-    relayURL: {{ .Values.connector.relayURL | quote }}
+    {{- include "common.tplvalues.render" (dict "value" (.Values.config | toYaml) "context" $) | nindent 4 }}

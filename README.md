@@ -1,4 +1,4 @@
-# opsdiag-charts
+# opsdiag-helm-pub
 
 Public Helm charts for OpsDiag.
 
@@ -10,6 +10,16 @@ Public Helm charts for OpsDiag.
 
 ```bash
 helm install opsdiag-app-connector \
-  oci://europe-west1-docker.pkg.dev/prod-common-cicd/charts-opsdiag/opsdiag-app-connector \
-  --version 0.1.3
+  oci://europe-west1-docker.pkg.dev/prod-common-cicd/opsdiag-helm-pub/opsdiag-app-connector \
+  --version 0.1.6
 ```
+
+The chart defaults are compatible with OpenShift restricted SCC: it does not pin
+`runAsUser`, `runAsGroup`, or `fsGroup`, allowing OpenShift to inject the
+namespace-range random UID while keeping non-root and restricted container
+security defaults.
+
+The connector chart renders `/app/config.yaml` from `values.config`. Supply
+the app `license` and `licenseServer` at the top level, and put relay settings
+under `relay.license`, `relay.edgeURL`, and `relay.relayURL`; the public chart
+does not ship license defaults.
